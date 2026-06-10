@@ -91,11 +91,13 @@ def sn_share_text(group_name: str, group_material_id: str, app_key:str, secret_k
                 else: # 有券
                     bounsLimit = float(bounsLimit)
                     pgPrice = float(pgPrice)
+                    couponValue_float = float(couponValue)
+                    after_pg_price = round(pgPrice - couponValue_float, 2)
                     if pgPrice >= bounsLimit:# 如果拼购价格满足满用券下限
-                        if float(snPrice) == float(pgPrice):
-                            share_text = f'''{sellingPoint}\n【苏宁{pgNum}人拼购】{title}\n领券再减{data['couponInfo']['couponValue']}元！\n——————————\n 【券后拼购价】¥{pgPrice}\n抢购地址：\n{sn_share_url}'''
+                        if float(snPrice) == pgPrice:
+                            share_text = f'''{sellingPoint}\n【苏宁{pgNum}人拼购】{title}\n领券再减{data['couponInfo']['couponValue']}元！\n——————————\n 【券后拼购价】¥{after_pg_price}\n抢购地址：\n{sn_share_url}'''
                         else:
-                            share_text = f'''{sellingPoint}\n【苏宁{pgNum}人拼购】{title}\n领券再减{data['couponInfo']['couponValue']}元！\n——————————\n 【原价】¥{snPrice}\n【券后拼购价】¥{pgPrice}\n抢购地址：\n{sn_share_url}'''
+                            share_text = f'''{sellingPoint}\n【苏宁{pgNum}人拼购】{title}\n领券再减{data['couponInfo']['couponValue']}元！\n——————————\n 【原价】¥{snPrice}\n【券后拼购价】¥{after_pg_price}\n抢购地址：\n{sn_share_url}'''
                     else:
                         buy_count = int(bounsLimit // pgPrice + 1)
                         if float(snPrice) == float(commodityPrice):
@@ -141,3 +143,4 @@ def promotion_url_generate(app_key:str, secret_key:str, ad_book_id: str, comm_co
 
 if __name__ == '__main__':
     pass
+
